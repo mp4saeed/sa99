@@ -2163,7 +2163,7 @@ local function run(msg, matches)
 			end
 		end
 
-		if matches[1] == 'عزل ادمین' then
+		if matches[1] == 'ادمین شدی' then
 			if not is_support(msg.from.id) and not is_owner(msg) then
 				return
 			end
@@ -2173,12 +2173,12 @@ local function run(msg, matches)
 					msg = msg
 				}
 				demoteadmin = get_message(msg.reply_id, get_message_callback, cbreply_extra)
-			elseif matches[1] == 'عزل ادمین' and string.match(matches[2], '^%d+$') then
+			elseif matches[1] == 'ادمین شدی' and string.match(matches[2], '^%d+$') then
 				local receiver = get_receiver(msg)
 				local user_id = "user#id"..matches[2]
 				local get_cmd = 'demoteadmin'
 				user_info(user_id, cb_user_info, {receiver = receiver, get_cmd = get_cmd})
-			elseif matches[1] == 'عزل ادمین' and not string.match(matches[2], '^%d+$') then
+			elseif matches[1] == 'ادمین شدی' and not string.match(matches[2], '^%d+$') then
 				local cbres_extra = {
 					channel = get_receiver(msg),
 					get_cmd = 'demoteadmin'
@@ -2231,7 +2231,7 @@ local function run(msg, matches)
 				return
 			end
 			if not is_owner(msg) then
-				return reply_msg(msg.id,"<i>✨خطا!فقط مدیران میتوانند عزل کنند!✨</i>",ok_cb,false)
+				return reply_msg(msg.id,"<i>✨خطا!فقط مدیران میتوانند ادمین کنند!✨</i>",ok_cb,false)
 			end
 			if type(msg.reply_id) ~= "nil" then
 				local cbreply_extra = {
@@ -2270,12 +2270,12 @@ local function run(msg, matches)
 			return "<i>✨انجام شد✨</i>"
 		end
 
-		if matches[1] == 'عزل' then
+		if matches[1] == 'ادمین' then
 			if not is_momod(msg) then
 				return
 			end
 			if not is_owner(msg) then
-				return reply_msg(msg.id,"<i>✨خطا!فقط بالا مقام ها میتوانند عزل کنند!✨</i>",ok_cb,false)
+				return reply_msg(msg.id,"<i>✨خطا!فقط بالا مقام ها میتوانند ادمین کنند!✨</i>",ok_cb,false)
 			end
 			if type(msg.reply_id) ~= "nil" then
 				local cbreply_extra = {
@@ -2283,7 +2283,7 @@ local function run(msg, matches)
 					msg = msg
 				}
 				demote = get_message(msg.reply_id, get_message_callback, cbreply_extra)
-			elseif matches[1] == 'عزل' and string.match(matches[2], '^%d+$') then
+			elseif matches[1] == 'ادمین' and string.match(matches[2], '^%d+$') then
 				local receiver = get_receiver(msg)
 				local user_id = "user#id"..matches[2]
 				local get_cmd = 'demote'
@@ -2410,7 +2410,7 @@ local function run(msg, matches)
 				channel_set_about(receiver, about_text, ok_cb, false)
 				return reply_msg(msg.id,"<i>✨درباره حذف شد✨</i>", ok_cb,false)
 			end
-			if matches[2] == 'لیست خفه ها' then
+			if matches[2] == 'لیست ساکت ها' then
 				chat_id = msg.to.id
 				local hash =  'mute_user:'..chat_id
 					redis:del(hash)
@@ -2911,7 +2911,7 @@ local function run(msg, matches)
 		end
 
 
-		if matches[1] == "خفه کردن" and is_momod(msg) then
+		if matches[1] == "ساکت کردن" and is_momod(msg) then
 			local chat_id = msg.to.id
 			local hash = "mute_user"..chat_id
 			local user_id = ""
@@ -2919,7 +2919,7 @@ local function run(msg, matches)
 				local receiver = get_receiver(msg)
 				local get_cmd = "mute_user"
 				muteuser = get_message(msg.reply_id, get_message_callback, {receiver = receiver, get_cmd = get_cmd, msg = msg})
-			elseif matches[1] == "خفه کردن" and string.match(matches[2], '^%d+$') then
+			elseif matches[1] == "ساکت کردن" and string.match(matches[2], '^%d+$') then
 				local user_id = matches[2]
 				if is_muted_user(chat_id, user_id) then
 					unmute_user(chat_id, user_id)
@@ -2930,7 +2930,7 @@ local function run(msg, matches)
 					savelog(msg.to.id, name_log.." ["..msg.from.id.."] added ["..user_id.."] to the muted users list")
 					return reply_msg(msg.id,"<b>✨["..user_id.."]["..username.."]</b><i> ساکت شد✨</i>",ok_cb,false)
 				end
-			elseif matches[1] == "خفه کردن" and not string.match(matches[2], '^%d+$') then
+			elseif matches[1] == "ساکت کردن" and not string.match(matches[2], '^%d+$') then
 				local receiver = get_receiver(msg)
 				local get_cmd = "mute_user"
 				local username = matches[2]
@@ -2948,7 +2948,7 @@ local function run(msg, matches)
 			savelog(msg.to.id, name_log.." ["..msg.from.id.."] requested SuperGroup muteslist")
 			return mutes_list(chat_id)
 		end
-		if matches[1] == "لیست خفه ها" and is_momod(msg) then
+		if matches[1] == "لیست ساکت ها" and is_momod(msg) then
 			local chat_id = msg.to.id
 			savelog(msg.to.id, name_log.." ["..msg.from.id.."] requested SuperGroup mutelist")
 			return muted_user_list(chat_id)
@@ -3064,14 +3064,14 @@ return {
 	"^(اطلاعات) (.*)$",
 	"^(تنظیم ادمین) (.*)$",
 	"^(تنظیم ادمین)",
-	"^(عزل ادمین) (.*)$",
-	"^(عزل ادمین)",
+	"^(ادمین کردن) (.*)$",
+	"^(ادمین کردن)",
 	"^(تنظیم مالک) (.*)$",
 	"^(تنظیم مالک)$",
 	"^(ارتقا) (.*)$",
 	"^(ارتقا)",
-	"^(عزل) (.*)$",
-	"^(عزل)",
+	"^(ادمین) (.*)$",
+	"^(ادمین)",
 	"^(تنظیم نام) (.*)$",
 	"^(تنظیم درباره) (.*)$",
 	"^(تنظیم قوانین) (.*)$",
@@ -3082,15 +3082,15 @@ return {
 	"^(بازکردن) (.*)$",
 	"^(ممنوعیت) ([^%s]+)$",
 	"^(حذف ممنوعیت) ([^%s]+)$",
-	"^(خفه کردن)$",
-	"^(خفه کردن) (.*)$",
+	"^(ساخت کردن)$",
+	"^(حذف ساکت) (.*)$",
 	"^(عمومی) (.*)$",
 	"^(تنظیمات)$",
 	"^(قوانین)$",
 	"^(تنظیم حساسیت) (%d+)$",
 	"^(پاک کردن) (.*)$",
 	"^(لیست ممنوعیت)$",
-	"^(لیست خفه ها)$",
+	"^(لیست ساخت ها)$",
     "^([https?://w]*.?telegram.me/joinchat/%S+)$",
 	"msg.to.peer_id",
 	"%[(document)%]",
